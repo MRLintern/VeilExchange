@@ -1,0 +1,47 @@
+@startuml FileTransferSequence
+
+actor "Local User" as User
+participant "P2PChatApplication" as App
+participant "FileTransferService" as FileTransferService
+participant "SharedFile" as SharedFile
+participant "FileChunk" as FileChunk
+participant "CryptoService" as CryptoService
+participant "ConnectionManager" as ConnectionManager
+participant "Boost.Asio Connection" as Connection
+participant "Remote Peer" as RemotePeer
+
+User -> App : sendFile(peerId, filePath)
+App -> FileTransferService : sendFile(peer, filePath)
+
+FileTransferService -> SharedFile : create metadata
+FileTransferService -> SharedFile : splitIntoChunks(chunkSize)
+SharedFile --> FileTransferService : vector<FileChunk>
+
+FileTransferService -> ConnectionManager : send file request
+ConnectionManager -> Connection : asyncSend(FILE_REQUEST)
+Connection -> RemotePeer : file request
+
+RemotePeer --> Connection : FILE_ACCEPTED
+Connection --> FileTransferService : file accepted
+
+loop For each FileChunk
+  FileTransferService -> FileChunk : getData()
+  FileChunk --> FileTransferService : chunk data
+  FileTransferService -> CryptoService : encrypt(chunk data)
+  CryptoService --> FileTransferService : encrypted chunk
+  FileTransferService -> ConnectionManager : send encrypted chunk
+  ConnectionManager -> Connection : asyncSend(FILE_CHUNK)
+  Connection -> RemotePeer : encrypted file chunk
+  RemotePeer --> Connection : ACK chunk
+end
+
+FileTransferService -> ConnectionManager : send FILE_COMPLETE
+ConnectionManager -> Connection : asyncSend(FILE_COMPLETE)
+Connection -> RemotePeer : transfer complete
+
+RemotePeer --> Connection : checksum result
+Connection --> FileTransferService : verified
+FileTransferService --> App : transfer complete
+App --> User : show file sent successfully
+
+@enduml
