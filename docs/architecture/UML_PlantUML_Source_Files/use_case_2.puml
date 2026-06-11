@@ -1,0 +1,45 @@
+@startuml UseCase
+left to right direction
+
+actor "Local User" as User
+actor "Remote Peer" as RemotePeer
+actor "Bootstrap Server\n(Optional)" as Bootstrap
+
+rectangle "P2P Chat Application" {
+  usecase "Start Application" as UC1
+  usecase "Discover Peers" as UC2
+  usecase "Connect to Peer" as UC3
+  usecase "Send Chat Message" as UC4
+  usecase "Receive Chat Message" as UC5
+  usecase "Send File" as UC6
+  usecase "Receive File" as UC7
+  usecase "Encrypt / Decrypt Data" as UC8
+  usecase "Verify Peer Identity" as UC9
+  usecase "Disconnect from Peer" as UC10
+  usecase "Shutdown Application" as UC11
+}
+
+User --> UC1
+User --> UC2
+User --> UC3
+User --> UC4
+User --> UC5
+User --> UC6
+User --> UC7
+User --> UC10
+User --> UC11
+
+RemotePeer --> UC4
+RemotePeer --> UC5
+RemotePeer --> UC6
+RemotePeer --> UC7
+
+UC2 --> Bootstrap
+
+UC3 .> UC9 : <<include>>
+UC4 .> UC8 : <<include>>
+UC5 .> UC8 : <<include>>
+UC6 .> UC8 : <<include>>
+UC7 .> UC8 : <<include>>
+
+@enduml
