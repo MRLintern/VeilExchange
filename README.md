@@ -11,7 +11,7 @@ __One peer__ must __initiate__ the __connection__ using the __other peer’s IP 
 ### Requirements
 * Compiler: `gcc/g++ 8 or later` for `C++17` support.
 * `CMake` for building and running the application.
-### Develoment Tools
+### Develoment Tools Used
 * `Linux (Ubuntu 20.04)`.
 * Text editor: `MS VSCode` is being used. Note: any text editor will do, should you wish to change parts of the software.
 * [Boost.Asio](https://www.boost.org/doc/user-guide/task-networking.html) library for networking.
