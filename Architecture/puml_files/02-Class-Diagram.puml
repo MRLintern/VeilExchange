@@ -1,0 +1,76 @@
+@startuml
+title VeilExchange: Class Diagram
+
+skinparam BackgroundColor white
+skinparam Shadowing false
+skinparam classAttributeIconSize 0
+
+namespace VeilExchange {
+
+    enum MessageType {
+        Text
+        FileName
+        FileData
+        FileTransferred
+    }
+
+    class Message <<struct>> {
+        +messageType : MessageType
+        +payload : vector<uint8_t>
+    }
+
+    class Application {
+        +Application(certificateFile, privateKeyFile)
+        +listen(port) : void
+        +connect(address, port) : void
+        +run() : void
+        +stop() : void
+        +sendTextMessage(text) : void
+        +sendFile(filePath) : bool
+        +isConnected() : bool
+        -connectionSetUp() : void
+        -handleMessage(message) : void
+        -beginIncomingFile(fileName) : void
+        -writeIncomingFilePayload(data) : void
+        -finishIncomingFile() : void
+        -createSafeFileName(fileName) : string
+        -ioContext_ : io_context
+        -tlsContext_ : ssl::context
+        -acceptor_ : unique_ptr<TCP::acceptor>
+        -connection_ : shared_ptr<Connection>
+        -incomingFile_ : ofstream
+        -incomingFileName_ : string
+        -connected_ : atomic_bool
+    }
+
+    class Connection {
+        +Connection(ioContext, tlsContext)
+        +socket() : TCP socket reference
+        +connect(address, port) : void
+        +performServerHandshake() : void
+        +send(message) : void
+        +close() : void
+        +setMessageReceived(callback) : void
+        +setConnectionEstablished(callback) : void
+        +setDisconnection(callback) : void
+        -readMessageHeader() : void
+        -readPayload() : void
+        -serialiseMessage(message) : vector<uint8_t>
+        -sendNextMessage() : void
+        -reportError(error) : void
+        -tlsSocket_ : TLSSocket
+        -resolver_ : TCP::resolver
+        -storedHeader_ : array<uint8_t, 5>
+        -receivedPayload_ : vector<uint8_t>
+        -receivedMessageType_ : MessageType
+        -messagesToSend_ : deque<vector<uint8_t>>
+        -disconnected_ : bool
+    }
+}
+
+Application *-- Connection : owns one active connection
+Application ..> Message : creates and handles
+Connection ..> Message : sends and receives
+Message --> MessageType : uses
+
+@enduml

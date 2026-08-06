@@ -1,0 +1,37 @@
+@startuml
+title VeilExchange: Thread Model
+
+skinparam BackgroundColor white
+skinparam Shadowing false
+
+rectangle "Main Thread" as MAIN {
+    component "Read terminal input\nstd::getline()" as INPUT
+    component "Process /file and /quit\ncommands" as COMMANDS
+    component "Call Application\nsend functions" as SEND
+}
+
+rectangle "Network Thread" as NETWORK {
+    component "io_context.run()" as IO
+    component "Accept or connect" as CONNECT
+    component "TLS handshake" as HANDSHAKE
+    component "Asynchronous reads\nand writes" as RW
+    component "Application callbacks" as CALLBACKS
+}
+
+rectangle "Shared Connection State" as STATE {
+    component "std::atomic_bool\nconnected_" as ATOMIC
+}
+
+INPUT --> COMMANDS
+COMMANDS --> SEND
+SEND --> IO : post networking work
+
+IO --> CONNECT
+CONNECT --> HANDSHAKE
+HANDSHAKE --> RW
+RW --> CALLBACKS
+
+SEND --> ATOMIC : reads connection state
+CALLBACKS --> ATOMIC : updates connection state
+
+@enduml

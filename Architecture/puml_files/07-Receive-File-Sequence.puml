@@ -1,0 +1,32 @@
+@startuml
+title VeilExchange: Receive File
+
+skinparam BackgroundColor white
+skinparam Shadowing false
+
+autonumber
+
+participant "Remote Peer" as PEER
+participant "Connection" as CON
+participant "Application" as APP
+participant "Local File System" as FILE
+actor User
+
+PEER -> CON : FileName message
+CON -> APP : handleMessage(FileName)
+APP -> APP : createSafeFileName(fileName)
+APP -> FILE : open received_<filename>
+APP -> User : display receiving filename
+
+loop for each FileData message
+    PEER -> CON : encrypted FileData message
+    CON -> APP : handleMessage(FileData)
+    APP -> FILE : writeIncomingFilePayload(bytes)
+end
+
+PEER -> CON : FileTransferred message
+CON -> APP : handleMessage(FileTransferred)
+APP -> FILE : close destination file
+APP -> User : display transfer complete
+
+@enduml

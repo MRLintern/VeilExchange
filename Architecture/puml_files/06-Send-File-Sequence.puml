@@ -1,0 +1,40 @@
+@startuml
+title VeilExchange: Send File
+
+skinparam BackgroundColor white
+skinparam Shadowing false
+
+autonumber
+
+actor User
+participant "main.cpp" as MAIN
+participant "Application" as APP
+participant "Local File" as FILE
+participant "Message Helpers" as MSG
+participant "Connection" as CON
+participant "Remote Peer" as PEER
+
+User -> MAIN : /file <path>
+MAIN -> APP : sendFile(filePath)
+APP -> APP : check connection
+APP -> FILE : open file in binary mode
+APP -> MSG : createFileNameMessage(fileName)
+MSG --> APP : FileName message
+APP -> CON : send(FileName)
+
+loop until end of file
+    APP -> FILE : read up to 16 KiB
+    FILE --> APP : block of bytes
+    APP -> MSG : createFileDataMessage(bytes)
+    MSG --> APP : FileData message
+    APP -> CON : send(FileData)
+    CON -> PEER : encrypted queued message
+end
+
+APP -> MSG : createFileTransferCompleteMessage()
+MSG --> APP : FileTransferred message
+APP -> CON : send(FileTransferred)
+CON -> PEER : encrypted completion message
+APP -> User : report file queued
+
+@enduml

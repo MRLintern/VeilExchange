@@ -1,0 +1,43 @@
+@startuml
+title VeilExchange: System Architecture
+
+skinparam componentStyle rectangle
+skinparam BackgroundColor white
+skinparam Shadowing false
+
+actor User
+
+package "VeilExchange Application" {
+
+    component "Terminal Interface\n(main.cpp)" as TUI
+
+    component "Application" as APP
+
+    component "Connection" as CON
+
+    component "Message Creation\n(Message.cpp)" as MSG
+
+    component "Boost.Asio\nNetworking" as ASIO
+
+    component "OpenSSL TLS\nEncryption" as TLS
+
+    component "Local File System" as FILES
+}
+
+cloud "Remote Peer" as PEER
+
+User --> TUI
+
+TUI --> APP : commands and text
+
+APP --> MSG : create messages
+APP --> CON : send and receive
+APP --> FILES : read and save files
+
+CON --> TLS : encrypted stream
+CON --> ASIO : asynchronous TCP operations
+
+TLS --> PEER
+ASIO --> PEER
+
+@enduml

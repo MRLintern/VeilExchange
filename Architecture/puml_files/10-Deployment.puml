@@ -1,0 +1,35 @@
+@startuml
+title VeilExchange: Deployment Diagram
+
+skinparam BackgroundColor white
+skinparam Shadowing false
+
+node "Peer A Computer" as A {
+    artifact "VeilExchange Executable" as APP_A
+    component "Terminal" as TERM_A
+    component "Boost.Asio + OpenSSL" as LIB_A
+    database "Local Files" as FILE_A
+    artifact "TLS Certificate\nand Private Key" as CERT_A
+}
+
+node "Peer B Computer" as B {
+    artifact "VeilExchange Executable" as APP_B
+    component "Terminal" as TERM_B
+    component "Boost.Asio + OpenSSL" as LIB_B
+    database "Local Files" as FILE_B
+    artifact "TLS Certificate\nand Private Key" as CERT_B
+}
+
+TERM_A --> APP_A
+APP_A --> LIB_A
+APP_A --> FILE_A
+APP_A --> CERT_A
+
+TERM_B --> APP_B
+APP_B --> LIB_B
+APP_B --> FILE_B
+APP_B --> CERT_B
+
+LIB_A <--> LIB_B : TLS-encrypted TCP connection
+
+@enduml

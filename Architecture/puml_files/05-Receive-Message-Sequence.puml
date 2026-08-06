@@ -1,0 +1,28 @@
+@startuml
+title VeilExchange: Receive Text Message
+
+skinparam BackgroundColor white
+skinparam Shadowing false
+
+autonumber
+
+participant "Remote Peer" as PEER
+participant "TLS Socket" as TLS
+participant "Connection" as CON
+participant "Application" as APP
+participant "Message Helpers" as MSG
+actor User
+
+PEER -> TLS : encrypted message bytes
+TLS -> CON : decrypted TCP byte stream
+CON -> CON : readMessageHeader()
+CON -> CON : rebuild message type and payload size
+CON -> CON : readPayload()
+CON -> APP : messageReceived callback
+APP -> APP : handleMessage(message)
+APP -> MSG : payloadToString(message)
+MSG --> APP : text
+APP -> User : display "Peer: <text>"
+CON -> CON : readMessageHeader() for next message
+
+@enduml

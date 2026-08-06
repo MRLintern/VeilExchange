@@ -1,0 +1,35 @@
+@startuml
+title VeilExchange: Connection State
+
+skinparam BackgroundColor white
+skinparam Shadowing false
+
+[*] --> Started
+
+Started --> Listening : listen(port)
+Started --> Resolving : connect(address, port)
+
+Listening --> TCPConnected : peer accepted
+Resolving --> TCPConnecting : address resolved
+TCPConnecting --> TCPConnected : TCP connection succeeds
+
+TCPConnected --> TLSHandshake : client or server handshake
+TLSHandshake --> Connected : handshake succeeds
+
+Connected --> Connected : send or receive messages
+Connected --> Connected : send or receive file data
+
+Listening --> Error : accept fails
+Resolving --> Error : resolution fails
+TCPConnecting --> Error : connection fails
+TLSHandshake --> Error : handshake fails
+Connected --> Disconnected : peer closes connection
+Connected --> Error : network operation fails
+
+Error --> Disconnected : reportError()
+Disconnected --> Stopped : stop()
+Connected --> Stopped : /quit or stop()
+
+Stopped --> [*]
+
+@enduml

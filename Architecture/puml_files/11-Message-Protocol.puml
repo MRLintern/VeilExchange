@@ -1,0 +1,37 @@
+@startuml
+title VeilExchange: Message Protocol
+
+skinparam BackgroundColor white
+skinparam Shadowing false
+
+rectangle "5-Byte Header" as HEADER {
+    rectangle "Byte 0\nMessage Type\nuint8_t" as TYPE
+    rectangle "Bytes 1-4\nPayload Size\nuint32_t" as SIZE
+}
+
+rectangle "Payload\nVariable number of bytes" as PAYLOAD
+
+TYPE -[hidden]-> SIZE
+HEADER -[hidden]-> PAYLOAD
+
+note bottom of TYPE
+1 = Text
+2 = FileName
+3 = FileData
+4 = FileTransferred
+end note
+
+note bottom of SIZE
+Stored in network byte order.
+Maximum accepted payload:
+64 KiB per message.
+end note
+
+note bottom of PAYLOAD
+Text characters, filename characters,
+or binary file data.
+A FileTransferred message normally
+contains an empty payload.
+end note
+
+@enduml

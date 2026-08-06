@@ -1,0 +1,50 @@
+@startuml
+title VeilExchange: Project Structure
+
+skinparam componentStyle rectangle
+skinparam BackgroundColor white
+skinparam Shadowing false
+
+top to bottom direction
+
+package "VeilExchange" {
+
+    package "include" {
+        component "Application.hpp" as AH
+        component "Connection.hpp" as CH
+        component "Message.hpp" as MH
+    }
+
+    package "src" {
+        component "main.cpp" as MAIN
+        component "Application.cpp" as AC
+        component "Connection.cpp" as CC
+        component "Message.cpp" as MC
+    }
+
+    package "certificates" {
+        artifact "certificate.pem" as CERT
+        artifact "private-key.pem" as KEY
+    }
+
+    artifact "CMakeLists.txt" as CMAKE
+    artifact "README.md" as README
+}
+
+MAIN --> AH
+AC --> AH
+CC --> CH
+MC --> MH
+
+AH --> CH
+AH --> MH
+CH --> MH
+
+AC --> CERT : loads
+AC --> KEY : loads
+CMAKE ..> MAIN : builds
+CMAKE ..> AC : builds
+CMAKE ..> CC : builds
+CMAKE ..> MC : builds
+
+@enduml

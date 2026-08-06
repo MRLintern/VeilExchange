@@ -1,0 +1,29 @@
+@startuml
+title VeilExchange: Send Text Message
+
+skinparam BackgroundColor white
+skinparam Shadowing false
+
+autonumber
+
+actor User
+participant "main.cpp" as MAIN
+participant "Application" as APP
+participant "Message Helpers" as MSG
+participant "Connection" as CON
+participant "TLS Socket" as TLS
+participant "Remote Peer" as PEER
+
+User -> MAIN : enter text and press Enter
+MAIN -> APP : sendTextMessage(text)
+APP -> APP : check isConnected()
+APP -> MSG : createMessage(text)
+MSG --> APP : Message(Text, payload)
+APP -> CON : send(message)
+CON -> CON : serialiseMessage(message)
+CON -> CON : add bytes to messagesToSend_ queue
+CON -> CON : sendNextMessage()
+CON -> TLS : async_write(serialised bytes)
+TLS -> PEER : encrypted data over TCP
+
+@enduml

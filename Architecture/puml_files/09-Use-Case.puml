@@ -1,0 +1,41 @@
+@startuml
+title VeilExchange: Use Cases
+
+skinparam BackgroundColor white
+skinparam Shadowing false
+
+left to right direction
+
+actor "Local User" as USER
+actor "Remote Peer" as PEER
+
+rectangle "VeilExchange" {
+    usecase "Listen for a Peer" as UC1
+    usecase "Connect to a Peer" as UC2
+    usecase "Establish TLS\nConnection" as UC3
+    usecase "Send Text Message" as UC4
+    usecase "Receive Text Message" as UC5
+    usecase "Send File" as UC6
+    usecase "Receive File" as UC7
+    usecase "Close Application" as UC8
+}
+
+USER --> UC1
+USER --> UC2
+USER --> UC4
+USER --> UC6
+USER --> UC8
+
+PEER --> UC1
+PEER --> UC2
+PEER --> UC5
+PEER --> UC7
+
+UC1 .> UC3 : <<include>>
+UC2 .> UC3 : <<include>>
+UC4 .> UC3 : <<include>>
+UC5 .> UC3 : <<include>>
+UC6 .> UC3 : <<include>>
+UC7 .> UC3 : <<include>>
+
+@enduml
