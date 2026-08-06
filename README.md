@@ -68,7 +68,12 @@
 * `$ cmake --build .`
 ## Running the Application
 --------------------------
-
+* In `VSCode`, split the terminal in two.
+* In one terminal: `$ ./VeilExchange listen 5000`
+* In the other terminal: `$ ./VeilExchange connect 127.0.0.1 5000`
+* Now peers can chat.
+* To send a file from 1 peer to another: `$ /file file.dat`
+* To end the conversation/disconnect: `$ /quit`
 ## References
 -------------
 
