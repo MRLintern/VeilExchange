@@ -22,42 +22,42 @@
 
 ### 1. Application Architecture
 -------------------------------
-![Application-Architecture Diagram](VeilExchange/Images/01-Application-Architecture.png)
+![Application-Architecture Diagram](Architecture/Images/01-Application-Architecture.png)
 
 ### 2. Class Diagram
 --------------------
-![Class Diagram](VeilExchange/Images/02-Class-Diagram.png)
+![Class Diagram](Architecture/Images/02-Class-Diagram.png)
 
 ### 3. Project Structure
 ------------------------
-![VeilExchange Structure Diagram](VeilExchange/Images/03-Project-Structure.png)
+![VeilExchange Structure Diagram](Architecture/Images/03-Project-Structure.png)
 ### 4. Message Sending Sequence
 -------------------------------
-![Message Sending Structure Diagram](VeilExchange/Images/04-Send-Message-Sequence.png)
+![Message Sending Structure Diagram](Architecture/Images/04-Send-Message-Sequence.png)
 ### 5. Receive Message Sequence
 -------------------------------
-![Receive Message Sequence Diagram](VeilExchange/Images/05-Receive-Message-Sequence.png)
+![Receive Message Sequence Diagram](Architecture/Images/05-Receive-Message-Sequence.png)
 ### 6. Send File Sequence
 -------------------------
-![Send File Sequence Diagram](VeilExchange/Images/06-Send-File-Sequence.png)
+![Send File Sequence Diagram](Architecture/Images/06-Send-File-Sequence.png)
 ### 7. Receive Message Sequence
 -------------------------------
-![Receive Message Sequence Diagram](VeilExchange/Images/07-Receive-File-Sequence.png)
+![Receive Message Sequence Diagram](Architecture/Images/07-Receive-File-Sequence.png)
 ### 8. Connection State
 -----------------------
-![Connection State Diagram](VeilExchange/Images/08-Connection-State.png)
+![Connection State Diagram](Architecture/Images/08-Connection-State.png)
 ### 9. Use Case
 ---------------
-![Use Case Diagram](VeilExchange/Images/09-Use-Case.png)
+![Use Case Diagram](Architecture/Images/09-Use-Case.png)
 ### 10. Deployment
 ------------------
-![VeilExchange Deployment Diagram](VeilExchange/Images/10-Deployment.png)
+![VeilExchange Deployment Diagram](Architecture/Images/10-Deployment.png)
 ### 11. Message Protocol
 ------------------------
-![Message Protocol Diagram](VeilExchange/Images/11-Message-Protocol.png)
+![Message Protocol Diagram](Architecture/Images/11-Message-Protocol.png)
 ### 12. Thread Model
 --------------------
-![Thread Model Diagram](VeilExchange/Images/12-Thread-Model.png)
+![Thread Model Diagram](Architecture/Images/12-Thread-Model.png)
 
 ## Building the Application
 ---------------------------
