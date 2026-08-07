@@ -66,7 +66,7 @@
 * `$ mkdir -p build && cd build`
 * `$ cmake ..`
 * `$ cmake --build .`
-* If you want to experiment with the file, `fluid_flow.dat` file, place it inside the `build` directory.
+* If you want to experiment with the file, `fluid_flow.dat`, place it inside the `build` directory.
 ## Running the Application
 --------------------------
 * In `VSCode`, split the terminal in two.
